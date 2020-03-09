@@ -30,14 +30,23 @@ public class RxJavaTrainingTest {
     public void addition_isCorrect() {
         int[] arr = new int[]{1, 2, 3, 4};
         Observable.just(1, 2, 3, 4)
-                .doOnNext((Integer i) -> System.out.println("Observable.just: " + i))
+                .doOnNext((Integer i) -> System.out.println("Observable.just1: " + i))
                 .subscribe();
 
         Observable.just(1, 2, 3, "4444444")
                 .doOnNext(new Consumer<Serializable>() {
                     @Override
                     public void accept(Serializable i) throws Exception {
-                        System.out.println("Observable.just: " + i);
+                        System.out.println("Observable.just2: " + i);
+                    }
+                })
+                .subscribe();
+
+        Observable.just(arr)
+                .doOnNext(new Consumer<Serializable>() {
+                    @Override
+                    public void accept(Serializable i) throws Exception {
+                        System.out.println("Observable.just3: " + i);
                     }
                 })
                 .subscribe();
@@ -60,12 +69,22 @@ public class RxJavaTrainingTest {
     public void testFromArray(){
         Integer[] arr1 = {1, 2, 3};
         int[] arr2 = {1, 2, 3, 4};
-        Integer[] arr3 = {4, 5, 6};
+        String[] arr4 = {"one", "two", "three"};
+
         Observable.fromArray(arr1)
                 .doOnNext(new Consumer<Integer>() {
                     @Override
                     public void accept(Integer i) throws Exception {
                         System.out.println("Observable.array1: " + i);
+                    }
+                })
+                .subscribe();
+
+        Observable.fromArray(arr4)
+                .doOnNext(new Consumer<String>() {
+                    @Override
+                    public void accept(String i) throws Exception {
+                        System.out.println("Observable.array4: " + i);
                     }
                 })
                 .subscribe();
@@ -79,9 +98,12 @@ public class RxJavaTrainingTest {
                 })
                 .subscribe();
 
-        Observable.fromArray(arr1, arr3)
-                .doOnNext(i -> System.out.println("Observable.array3: " + i))
-                .subscribe();
+//        Integer[] arr3 = {4, 5, 6};
+//        Observable.fromArray(arr1, arr3)
+//                .doOnNext((Integer[] i) -> {
+//                    System.out.println("Observable.array3: " + i);
+//                })
+//                .subscribe();
     }
 
     @Test
